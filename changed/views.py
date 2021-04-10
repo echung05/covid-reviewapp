@@ -134,6 +134,3 @@ def reply(request,id):
         else:
           form = BusinessForm()
           return render(request,'changed/home.html',{'form':form})
-
-    
-    
