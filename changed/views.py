@@ -140,7 +140,7 @@ def processReply(request):
 
         #cannot have duplicate replies, so don't have to check if it already exists
         reply = Reply.objects.create(business_info = comment,user =user,title = title, body=body)
-        return HttpResponse('Testing')
+        return render(request,'changed/home.html')
 
 
     
