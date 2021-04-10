@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout as auth_logout
-from .models import Business, BusinessInfo
-from .models import BusinessForm
+from .models import Business, BusinessInfo, Reply
+from .models import BusinessForm, ReplyForm
 from django.views.generic import DetailView
 
 
@@ -118,7 +118,30 @@ def reply(request,business_info_id):
     '''
     This handles form
     '''
-    return HttpResponse('Hasd')
+    #do something with business_info_id
+    context = {
+        'business_info':business_info_id
+    }
+    return render(request,'changed/replyform.html',context)
+
+def processReply(request):
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            body = form.cleaned_data['body']
+            business_info_id  = request.POST['businessinfo']
+            comment = BusinessInfo.objects.get(id = business_info_id)
+            user = User.objects.get(username=request.user.username)
+            print(business_info_id)
+            print(title)
+            print(body)
+        
+
+        #cannot have duplicate replies, so don't have to check if it already exists
+        reply = Reply.objects.create(business_info = comment,user =user,title = title, body=body)
+        return HttpResponse('Testing')
+
 
     
     

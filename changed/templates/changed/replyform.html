@@ -1,0 +1,20 @@
+{% extends 'changed/base_html.html' %}
+
+{% block content %}
+    <body>
+        <!--The reply form -->
+        <form action="{% url 'changed:processReply'%}" method="POST">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input hidden name="businessinfo" id="{{business_info}}" value="{{business_info}}">
+            <input type="text" id="title" name="title"><br>
+            <label for="body">Body:</label><br>
+            <textarea name="body" id="body" cols="50" rows="20"></textarea>
+            <br><br>
+            <button type="submit" value="submit" class="btn btn-primary"> 
+                Post Reply
+            </button>
+        </form>
+    </body>
+
+{% endblock %}

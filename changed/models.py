@@ -38,6 +38,23 @@ class BusinessForm(forms.Form):
    delivery =forms.BooleanField(label="Delivery",required=False)
    body = forms.CharField(label="Additional Comments",widget=forms.Textarea,required=False)
 
+class Reply(models.Model):
+    #All of a comment's replies, as such there is a foreign key
+    #A reply has a title, body, and an associated user and comment
+    business_info =  models.ForeignKey(BusinessInfo,on_delete=models.CASCADE) #the comment that is being replied to
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    title = models.CharField(max_length = 50)
+    body = body = models.TextField(default="")
+    def __str__(self):
+        text = self.title+ ': '+self.body
+        return text
+
+class ReplyForm(forms.Form):
+    #Encapsulates data from reply
+    title = forms.CharField(max_length=50)
+    body = forms.CharField()
+
+
 
 
 
