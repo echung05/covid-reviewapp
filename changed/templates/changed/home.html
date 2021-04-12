@@ -16,7 +16,7 @@
                 }
 
                 /* Optional: Makes the sample page fill the window. */
-                html,
+            html,
                 body {
                         height: 100%;
                         margin: 0;
@@ -36,7 +36,10 @@
                 #map #infowindow-content {
                         display: inline;
                 }
-
+                .card{
+                        display: none;
+                        visibility: hidden
+                }
                 .pac-card {
                         margin: 10px 10px 0 0;
                         border-radius: 2px 0 0 2px;
@@ -159,6 +162,11 @@
                         google.maps.event.addListener(map, 'click', function (event) {
                                 placeMarker(event.latLng);
                         });
+                        function opendiv() {
+                            var card = document.getElementById('businessCard');
+                            card.style.display = "block";
+                            card.style.visibility = 'visible';
+                        }
 
                         function placeMarker(location) {
 
@@ -170,7 +178,13 @@
                                 }
                                 else {
                                         marker.setPosition(location);
-                                }
+                            }
+                            var infowindow = new google.maps.InfoWindow({
+                                content: 'Latitude:' + location.lat()
+                                    + '<br>Longitude: ' + location.lng()
+                            });
+                            infowindow.open(map, marker);
+                            opendiv();
                         }
 
                         // Create the search box and link it to the UI element.
@@ -188,7 +202,9 @@
 
                         if (places.length == 0) {
                                 return;
-                        }
+                            }
+                        
+                            
 
                         // For each place, get the icon, name and location.
                         const bounds = new google.maps.LatLngBounds();
@@ -251,7 +267,7 @@
                         <div class="col">
                                 <!-- card containing business info and review form-->
                                 <!--TODO: make card and its contents show up ONLY when we've clicked on a business (shouldn't show up when it's empty)-->
-                                <div class="card" style="margin:2vh">
+                                <div class="card" id="businessCard" style="margin:2vh">
                                         <h5 class="card-header text-center" style="font-weight: bold; color:#5d7fa3"
                                                 id="name" name="name">
                                         </h5>
