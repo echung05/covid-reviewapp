@@ -8,6 +8,7 @@ from .models import BusinessForm, ReplyForm
 from django.views.generic import DetailView
 
 
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -32,7 +33,6 @@ def writeReview(request):
     '''
     TODO: Business = business_name, BusinessInfo = covid_compliance_rating
     '''
-    user = request.user
     if request.method == 'POST':
         form = BusinessForm(request.POST)
         if form.is_valid():
@@ -62,7 +62,7 @@ def writeReview(request):
                 business_info = BusinessInfo.objects.create(business=business,user=user, covid_compliance_rating=covid_compliance_rating,capacity_limit=capacity_limit,
                                                            indoor_dining=indoor_dining,outdoor_dining=outdoor_dining, curbside_pickup=curbside_pickup,delivery=delivery,body = body) 
                 print(business_name)
-                print(user.username)
+                #print(request.user.username)
                 print(body)
                 return HttpResponseRedirect(reverse('changed:index'))
             else:
@@ -71,7 +71,7 @@ def writeReview(request):
                 business_info = BusinessInfo.objects.create(business=business,user=user, covid_compliance_rating=covid_compliance_rating,capacity_limit=capacity_limit,
                                                            indoor_dining=indoor_dining,outdoor_dining=outdoor_dining, curbside_pickup=curbside_pickup,delivery=delivery,body = body)
                 print(business_name)
-                print(user.username)
+                #print(user.username)
                 print(body)
                 return HttpResponseRedirect(reverse('changed:index'))
         return HttpResponseRedirect(reverse('changed:index'))
@@ -129,6 +129,7 @@ def reply(request,id):
               if form.is_valid():
                 reply = form.cleaned_data['reply']
                 user = request.user
+                
                 reply = Reply.objects.create(body=reply,comment=comment,user=user)
             return render(request,'changed/replies.html',context)   
         else:
